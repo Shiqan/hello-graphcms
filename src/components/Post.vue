@@ -15,11 +15,11 @@
     </article>
   </div>
 </template>
-​
+
 <script>
   import gql from 'graphql-tag'
   import VueMarkdown from 'vue-markdown'
-​
+  
   const post = gql`
     query post($id: ID!) {
       post(where: { id: $id }) {
@@ -34,7 +34,6 @@
       }
     }
   `
-​
   export default {
     name: 'PostPage',
     data: () => ({

@@ -6,7 +6,7 @@
     <div v-for="author in authors" :key="author.id">
       <div class='author'>
         <div class='info-header'>
-          <img
+          <img v-if="author.avatar"
             :alt="author.name"
             :src="`https://media.graphcms.com/resize=w:100,h:100,fit:crop/${author.avatar.handle}`"
           />
@@ -20,7 +20,7 @@
 ​
 <script>
   import gql from 'graphql-tag'
-​
+
   export const authors = gql`
     query authors {
       authors {
@@ -33,7 +33,6 @@
       }
     }
   `
-​
   export default {
     name: 'AboutPage',
     data: () => ({

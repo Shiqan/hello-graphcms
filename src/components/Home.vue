@@ -5,7 +5,7 @@
         <li v-for="post in posts" :key="post.id">
           <router-link :to="`/post/${post.id}`" class="link">
             <div class="placeholder">
-              <img
+              <img v-if="post.coverImage"
                 :alt="post.title"
                 :src="`https://media.graphcms.com/resize=w:100,h:100,fit:crop/${post.coverImage.handle}`"
               />
@@ -26,23 +26,21 @@
 
 <script>
   import gql from 'graphql-tag'
-​
   const POSTS_PER_PAGE = 2
-​
   const posts = gql`
     query posts($first: Int!, $skip: Int!) {
-      posts(orderBy: dateAndTime_DESC, first: $first, skip: $skip) {
+      posts(orderBy:date_DESC, first: $first, skip: $skip) {
         id
         slug
         title
-        dateAndTime
+        date
         coverImage {
           handle
         }
       }
     }
   `
-​
+  
   export default {
     name: 'HomePage',
     data: () => ({
@@ -60,7 +58,15 @@
         }
       },
       postCount: {
-        query: gql`{ postsConnection { aggregate { count } } }`,
+        query: gql`
+        query postsConnection {
+          postsConnection {
+            aggregate {
+              count
+            }
+          }
+        }
+        `,
         update: ({ postsConnection }) => postsConnection.aggregate.count
       }
     },
